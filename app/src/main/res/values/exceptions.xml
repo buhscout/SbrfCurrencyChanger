@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_failed">Ошибка входа в сбербанк онлайн</string>
+    <string name="load_data_failed">Ошибка получения даннх с сервера</string>
+</resources>

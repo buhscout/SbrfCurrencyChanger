@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:title="@string/title_account"
+        android:persistent="false">
+
+        <EditTextPreference
+            android:key="@string/preferences_login"
+            android:title="@string/lable_login"
+            android:dialogTitle="@string/lable_login"
+            android:autoText="true"
+            android:singleLine="true"
+            android:elevation="5dp"/>
+
+        <EditTextPreference
+            android:key="@string/preferences_password"
+            android:title="@string/lable_password"
+            android:dialogTitle="@string/lable_password"
+            android:inputType="textPassword"
+            android:autoText="true"
+            android:elevation="5dp"/>
+
+    </PreferenceScreen>
+
+    <scout.sbrfcurrencychanger.view.CheckedListPreference
+        android:key="@string/preferences_accounts"
+        android:title="@string/lable_accounts"
+        android:dialogTitle="@string/lable_accounts"
+        android:summary="Выберете счета, которые должны учавствовать в обмене"/>
+
+</PreferenceScreen>

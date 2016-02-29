@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preferences_login">account_login</string>
+    <string name="preferences_password">account_password</string>
+    <string name="preferences_accounts">accounts</string>
+</resources>

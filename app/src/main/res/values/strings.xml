@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Обменник</string>
+    <string name="action_refresh">Обновить</string>
+    <string name="title_account">Учётная запись</string>
+    <string name="lable_login">Логин</string>
+    <string name="lable_password">Пароль</string>
+    <string name="lable_settings">Настройки</string>
+    <string name="lable_accounts">Список счетов</string>
+    <string name="empty">\"\"</string>
+
+    <string-array name="drawer_titles">
+        <item>Список счетов</item>
+        <item>История</item>
+        <item>Курсы валют</item>
+        <item>Обмен валюты</item>
+        <item>Настройки</item>
+    </string-array>
+
+    <string name="title_activity_checked_list_preference">CheckedListPreference</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
