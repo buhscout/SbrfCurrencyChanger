@@ -2,11 +2,16 @@ package scout.sbrfcurrencychanger.view;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -23,10 +28,10 @@ import org.htmlcleaner.XPatherException;
 import java.util.HashMap;
 import java.util.Map;
 
+import scout.sbrfcurrencychanger.IExchangeService;
 import scout.sbrfcurrencychanger.R;
 import scout.sbrfcurrencychanger.Repository;
 import scout.sbrfcurrencychanger.dao.WebDao;
-import scout.sbrfcurrencychanger.service.ExchangeReceiver;
 import scout.sbrfcurrencychanger.service.ExchangeService;
 import scout.sbrfcurrencychanger.view.adapters.DrawerAdapter;
 import scout.sbrfcurrencychanger.view.fragments.AccountsFragment;
@@ -34,8 +39,6 @@ import scout.sbrfcurrencychanger.view.fragments.CurrencyRateHistoryFragment;
 import scout.sbrfcurrencychanger.view.fragments.ExchangeHistoryFragment;
 
 public class MainActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-
 	private static final String BUNDLE_DRAWER_POSITION = "navigationPosition";
 	private static final String BUNDLE_DRAWER_IS_OPENED = "isChangeFragment";
 	private static final int DRAWER_POSITION_ACCOUNTS = 0;
@@ -50,7 +53,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	private DrawerLayout mDrawerLayout;
 	private LinearLayout mDrawerContentLayout;
 	private TextView tvLogin;
-	//private int mNewHistoryCounter;
 	private String[] mDrawerTitles;
 	private Map<Integer, Integer> mDrawerImages;
 
@@ -95,38 +97,44 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 		onSharedPreferenceChanged(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.preferences_login));
 		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
-		new ExchangeReceiver().onReceive(this, new Intent(this, ExchangeReceiver.class));
-/*
-		try {
-			new WebDao(this).getAccounts();
-			new WebDao(this).ChangeCurrency(Repository.getAccounts()[1], Repository.getMainAccount(), 1, 50);
-		} catch (WebDao.SbrfException e) {
-			e.printStackTrace();
-		}*/
-		//Account acc = Repository.getAccounts()[0];
-		//acc.setBalance(100);
-		//Repository.saveAccount(acc);
-
-		/*Currency cur0 = new Currency("RUB", "руб.");
-		SQLiteDao.save(cur0);
-		Currency[] curs = SQLiteDao.get(Currency.class);
-		Currency curItem = SQLiteDao.get(Currency.class, curs[0].getCode());
-		SQLiteDao.save(new Account(curItem, "1" , "Рублёвый", "cards=1"));
-		Account acc = SQLiteDao.save(new Account(Repository.getCurrencies()[1],"2", "Долларовый", "cards=2"));
-		SQLiteDao.save(curItem);
-		cur0 = SQLiteDao.get(Currency.class, acc.getCurrency().getCode());
-		acc = SQLiteDao.get(Account.class, acc.getHref());
-		Account[] accs = SQLiteDao.get(Account.class);
-        */
+		//RunService();
+        if(!isServiceRunning()) {
+            startService(new Intent(this, ExchangeService.class));
+        }
 	}
 
-	//public int getNewHistoryCounter() {
-	//	return mNewHistoryCounter;
-	//}
+    public boolean isServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ExchangeService.class.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	//public void setNewHistoryCounter(int value) {
-	//	mNewHistoryCounter = value;
-	//}
+	private void RunService() {
+		final Intent intent = new Intent(this, ExchangeService.class);
+		ServiceConnection connection = new ServiceConnection() {
+			IExchangeService mService;
+
+			@Override
+			public void onServiceConnected(ComponentName className, IBinder service) {
+				//mService = IExchangeService.Stub.asInterface(service);
+				/*try {
+					mService.analyseExchanges();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}*/
+			}
+
+			@Override
+			public void onServiceDisconnected(ComponentName arg0) {
+				mService = null;
+			}
+		};
+		bindService(intent, connection, Context.BIND_AUTO_CREATE);
+	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -150,7 +158,6 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	@Override
 	protected void onDestroy() {
 		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-        stopService(new Intent(this, ExchangeService.class));
 		super.onDestroy();
 	}
 

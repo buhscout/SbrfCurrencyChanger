@@ -541,8 +541,12 @@ public class WebDao {
 				if (nodes.length == 0) {
 					continue;
 				}
-				node = (TagNode) nodes[0];
-				href = node.getAttributeByName("href");
+                nodes = node.evaluateXPath(".//span/@onclick");
+				if (nodes.length == 0) {
+					continue;
+				}
+                href = (String)nodes[0];
+                href = href.substring(href.indexOf('/'), href.lastIndexOf('\''));
 
 				nodes = product.evaluateXPath("//div[@class='productNumberBlock']/div");
 				if (nodes.length == 0) {

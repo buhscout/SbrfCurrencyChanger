@@ -211,8 +211,12 @@ public class Repository {
 	public static void refreshAccounts() throws WebDao.SbrfException, XPatherException {
 		for (Account account : getAccounts()) {
 			for (Account sbrfAccount : getSbrfDao().getAccounts()) {
-				if(account.equals(sbrfAccount) && account.getBalance() != sbrfAccount.getBalance()) {
-					account.setBalance(sbrfAccount.getBalance());
+                float balance = sbrfAccount.getBalance();
+                if(Objects.equals(account.getCurrency().getCode(), "RUB")) {
+                    balance -= 10;
+                }
+				if(account.equals(sbrfAccount) && account.getBalance() != balance) {
+					account.setBalance(balance);
 					saveAccount(account);
 				}
 			}

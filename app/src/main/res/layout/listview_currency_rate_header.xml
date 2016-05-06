@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/currencyRateHeader"
@@ -7,13 +6,12 @@
     android:layout_height="24dp"
     android:background="@color/header_background"
     android:orientation="horizontal"
-    android:weightSum="100">
-
+    android:weightSum="100"
+    android:baselineAligned="false">
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="12">
-
         <TextView
             android:id="@+id/tv_currencyRateHeaderName"
             android:layout_width="wrap_content"
@@ -22,14 +20,11 @@
             android:text="01.01.2014"
             android:layout_gravity="center_vertical|center_horizontal"
             android:textStyle="bold|italic"/>
-
     </FrameLayout>
-
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="38">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,14 +32,11 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:textStyle="bold|italic"
             android:text="Продажа"/>
-
     </FrameLayout>
-
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="35">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +44,5 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:textStyle="bold|italic"
             android:text="Покупка"/>
-
     </FrameLayout>
-
 </LinearLayout>

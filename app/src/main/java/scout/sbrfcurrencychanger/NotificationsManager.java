@@ -13,10 +13,8 @@ import scout.sbrfcurrencychanger.view.MainActivity;
  * Уведомления
  */
 public class NotificationsManager {
-    /**
-     * Идентификатор уведомления обмена
-     */
-    public static int EXCHANGE_NOTIFY_ID = 1;
+
+    private static int notifyId;
 
     /**
      * Уведомление обмена
@@ -26,10 +24,10 @@ public class NotificationsManager {
     public static void ChangeNotify(Context context, Exchange exchange) {
         PushNotify(context, "Обмен валюты", exchange.getSource().getCurrency().getCode() + " -> " + exchange.getDestination().getCurrency().getCode()
                 + ": " + Repository.getDecimalFormat().format(exchange.getValue()) + exchange.getSource().getCurrency().getSymbol()
-                + " по курсу " + Repository.getDecimalFormat().format(exchange.getRate()), EXCHANGE_NOTIFY_ID);
+                + " по курсу " + Repository.getDecimalFormat().format(exchange.getRate()));
     }
 
-    public static void PushNotify(Context context, String header, String message, int notifyId) {
+    public static void PushNotify(Context context, String header, String message) {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context,
                 0, notificationIntent,
@@ -49,6 +47,6 @@ public class NotificationsManager {
         Notification notification = builder.build();
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notifyId, notification);
+        notificationManager.notify(notifyId++, notification);
     }
 }

@@ -19,7 +19,6 @@ import scout.sbrfcurrencychanger.view.adapters.AccountsAdapter;
  * Фрагмент для списка счетов
  */
 public class AccountsFragment extends Fragment {
-
 	private static final String STATE_SCROLL_POSITION_X = "scrollX";
 	private static final String STATE_SCROLL_POSITION_Y = "scrollY";
 	private View mView;
@@ -28,7 +27,6 @@ public class AccountsFragment extends Fragment {
 
 	public AccountsFragment() {
 		super();
-
 		onChangeAccountListener = new OnChangeListener<Account>() {
 			@Override
 			public void OnChange(Account item) {

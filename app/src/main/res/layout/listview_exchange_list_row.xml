@@ -1,98 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="3pt">
-
     <FrameLayout
         android:id="@+id/exchange_row_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:padding="3pt">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="8">
-
-                <ImageView
-                    android:id="@+id/iv_exchange_row_source_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/currency_eur"/>
-
-                <TextView
-                    android:id="@+id/tv_exchange_row_source_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_exchange_row_source_image"
-                    android:text="EUR"/>
-
-            </RelativeLayout>
-
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3pt">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="8">
             <ImageView
+                android:id="@+id/iv_exchange_row_source_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/next_arrow"/>
-
-            <RelativeLayout
+                android:src="@drawable/currency_eur"/>
+            <TextView
+                android:id="@+id/tv_exchange_row_source_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="8">
-
-                <ImageView
-                    android:id="@+id/iv_exchange_row_destination_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/currency_eur"/>
-
-                <TextView
-                    android:id="@+id/tv_exchange_row_destination_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/iv_exchange_row_destination_image"
-                    android:text="EUR"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_exchange_row_source_image"
+                android:text="EUR"/>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/next_arrow"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="8">
+            <ImageView
+                android:id="@+id/iv_exchange_row_destination_image"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="40">
-
-
-                    <TextView
-                        android:id="@+id/tv_exchange_row_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10pt"
-                        android:gravity="end"
-                        android:textColor="@color/green_dark"
-                        android:text="0.00"/>
-
-                    <TextView
-                        android:id="@+id/tv_exchange_row_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/tv_exchange_row_rate"
-                        android:layout_marginLeft="10pt"
-                        android:textColor="@color/blue_dark"
-                        android:textStyle="bold"
-                        android:text="0.00"/>
-
-            </RelativeLayout>
-
+                android:layout_height="wrap_content"
+                android:src="@drawable/currency_eur"/>
+            <TextView
+                android:id="@+id/tv_exchange_row_destination_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_exchange_row_destination_image"
+                android:text="EUR"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="40">
+            <TextView
+                android:id="@+id/tv_exchange_row_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10pt"
+                android:gravity="end"
+                android:textColor="@color/green_dark"
+                android:text="0.00"/>
+            <TextView
+                android:id="@+id/tv_exchange_row_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_exchange_row_rate"
+                android:layout_marginStart="10pt"
+                android:textColor="@color/blue_dark"
+                android:textStyle="bold"
+                android:text="0.00"/>
+        </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>
