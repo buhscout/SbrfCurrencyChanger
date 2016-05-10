@@ -22,15 +22,18 @@
         <activity
             android:name=".view.PreferencesActivity"
             android:label="@string/lable_settings"
+            android:noHistory="false"
             android:configChanges="orientation|screenSize"/>
         <service
             android:name=".service.ExchangeService"
-            android:process=":ExchangeService"/>
-        <receiver android:name=".service.BootReceiver">
+            android:process=":background"/>
+        <receiver android:name=".service.BootReceiver" android:process=":background">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".service.ExecReceiver" android:process=":background"/>
     </application>
 
 </manifest>

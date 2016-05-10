@@ -1,11 +1,10 @@
 package scout.sbrfcurrencychanger.service;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import org.htmlcleaner.XPatherException;
 
@@ -28,7 +27,7 @@ public class ExchangeService extends Service {
 
     private static double mChangeCurrencyBorder = 0.005;
     //private static final int INTERVAL = 43200000; // 12 часов
-    private static final int INTERVAL =3600000; // 1 мин
+    private static final int INTERVAL =36000; // 1 мин
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -37,17 +36,19 @@ public class ExchangeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Repository.initialize(this);
+        /*Repository.initialize(this);
         try {
-            //Log.d("ExchangeService", "onStartCommand");
-            analyse();
+            Log.d("ExchangeService", "onStartCommand");
+            //analyse();
         } finally {
             Intent restartIntent = new Intent(this, getClass());
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
             PendingIntent pi = PendingIntent.getService(this, 1, restartIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL, pi);
         }
-        return START_STICKY;
+        return super.onStartCommand(intent, flags, startId);*/
+        Log.d("ExchangeService", "onStartCommand");
+        return Service.START_NOT_STICKY;
     }
 
     private class ServiceBinder extends IExchangeService.Stub {

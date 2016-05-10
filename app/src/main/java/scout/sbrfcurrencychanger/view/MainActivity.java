@@ -113,8 +113,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
         return false;
     }
 
+    ServiceConnection connection;
+
 	private void RunService() {
-		ServiceConnection connection = new ServiceConnection() {
+		connection = new ServiceConnection() {
 			IExchangeService mService;
 
 			@Override
@@ -132,7 +134,9 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 				mService = null;
 			}
 		};
-        startService(new Intent(this, ExchangeService.class));
+		//Intent intent = new Intent(this, ExchangeService.class);
+        //startService(intent);
+		//bindService(intent, connection, BIND_AUTO_CREATE | BIND_IMPORTANT);
     }
 
 	@Override
@@ -157,6 +161,7 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 	@Override
 	protected void onDestroy() {
 		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+       // unbindService(connection);
 		super.onDestroy();
 	}
 
