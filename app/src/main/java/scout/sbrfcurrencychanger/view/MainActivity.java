@@ -97,10 +97,10 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 		onSharedPreferenceChanged(PreferenceManager.getDefaultSharedPreferences(this), getString(R.string.preferences_login));
 		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
-		//RunService();
-        if(!isServiceRunning()) {
+		RunService();
+        /*if(!isServiceRunning()) {
             startService(new Intent(this, ExchangeService.class));
-        }
+        }*/
 	}
 
     public boolean isServiceRunning() {
@@ -114,18 +114,17 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     }
 
 	private void RunService() {
-		final Intent intent = new Intent(this, ExchangeService.class);
 		ServiceConnection connection = new ServiceConnection() {
 			IExchangeService mService;
 
 			@Override
 			public void onServiceConnected(ComponentName className, IBinder service) {
-				//mService = IExchangeService.Stub.asInterface(service);
-				/*try {
-					mService.analyseExchanges();
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}*/
+				mService = IExchangeService.Stub.asInterface(service);
+				//try {
+				//	mService.analyseExchanges();
+				//} catch (RemoteException e) {
+				//	e.printStackTrace();
+				//}
 			}
 
 			@Override
@@ -133,8 +132,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 				mService = null;
 			}
 		};
-		bindService(intent, connection, Context.BIND_AUTO_CREATE);
-	}
+        startService(new Intent(this, ExchangeService.class));
+    }
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {

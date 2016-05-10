@@ -1,14 +1,11 @@
 package scout.sbrfcurrencychanger.service;
 
 import android.app.AlarmManager;
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.os.RemoteException;
-import android.os.SystemClock;
 
 import org.htmlcleaner.XPatherException;
 
@@ -18,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import scout.sbrfcurrencychanger.BuildConfig;
 import scout.sbrfcurrencychanger.IExchangeService;
 import scout.sbrfcurrencychanger.NotificationsManager;
 import scout.sbrfcurrencychanger.Repository;
@@ -28,35 +24,11 @@ import scout.sbrfcurrencychanger.entities.Currency;
 import scout.sbrfcurrencychanger.entities.CurrencyRate;
 import scout.sbrfcurrencychanger.entities.Exchange;
 
-public class ExchangeService extends IntentService {
+public class ExchangeService extends Service {
 
     private static double mChangeCurrencyBorder = 0.005;
     //private static final int INTERVAL = 43200000; // 12 часов
-    private static final int INTERVAL = 3600000; // 1 час
-
-    public ExchangeService() {
-        super(ExchangeService.class.getName());
-    }
-
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
-    public ExchangeService(String name) {
-        super(name);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Repository.initialize(this);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return Service.START_STICKY;
-    }
+    private static final int INTERVAL =3600000; // 1 мин
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -64,26 +36,18 @@ public class ExchangeService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        PowerManager powerManager = (PowerManager)getSystemService(POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, BuildConfig.APPLICATION_ID);
-        wakeLock.acquire();
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Repository.initialize(this);
         try {
+            //Log.d("ExchangeService", "onStartCommand");
             analyse();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
-            wakeLock.release();
-            startInBackground();
+        } finally {
+            Intent restartIntent = new Intent(this, getClass());
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            PendingIntent pi = PendingIntent.getService(this, 1, restartIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL, pi);
         }
-    }
-
-    public void startInBackground(){
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent i = new Intent(this, ExchangeService.class);
-        PendingIntent backgroundIntent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.cancel(backgroundIntent);
-        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + INTERVAL, backgroundIntent);
+        return START_STICKY;
     }
 
     private class ServiceBinder extends IExchangeService.Stub {
