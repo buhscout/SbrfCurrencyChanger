@@ -1,6 +1,6 @@
 package scout.sbrfcurrencychanger.service;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -23,11 +23,16 @@ import scout.sbrfcurrencychanger.entities.Currency;
 import scout.sbrfcurrencychanger.entities.CurrencyRate;
 import scout.sbrfcurrencychanger.entities.Exchange;
 
-public class ExchangeService extends Service {
+public class ExchangeService extends IntentService {
 
     private static double mChangeCurrencyBorder = 0.005;
     //private static final int INTERVAL = 43200000; // 12 часов
-    private static final int INTERVAL =36000; // 1 мин
+    //private static final int INTERVAL =36000; // 1 мин
+
+    public ExchangeService() {
+        super("ExchangeService");
+        Repository.initialize(this);
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,20 +40,13 @@ public class ExchangeService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        /*Repository.initialize(this);
+    protected void onHandleIntent(Intent intent) {
         try {
-            Log.d("ExchangeService", "onStartCommand");
-            //analyse();
+            //Log.d("ExchangeService", "onHandleIntent");
+            analyse();
         } finally {
-            Intent restartIntent = new Intent(this, getClass());
-            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            PendingIntent pi = PendingIntent.getService(this, 1, restartIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + INTERVAL, pi);
+            AlarmReceiver.completeWakefulIntent(intent);
         }
-        return super.onStartCommand(intent, flags, startId);*/
-        Log.d("ExchangeService", "onStartCommand");
-        return Service.START_NOT_STICKY;
     }
 
     private class ServiceBinder extends IExchangeService.Stub {

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import scout.sbrfcurrencychanger.R;
 import scout.sbrfcurrencychanger.Repository;
 import scout.sbrfcurrencychanger.dao.WebDao;
 import scout.sbrfcurrencychanger.service.ExchangeService;
+import scout.sbrfcurrencychanger.service.AlarmReceiver;
 import scout.sbrfcurrencychanger.view.adapters.DrawerAdapter;
 import scout.sbrfcurrencychanger.view.fragments.AccountsFragment;
 import scout.sbrfcurrencychanger.view.fragments.CurrencyRateHistoryFragment;
@@ -116,7 +118,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
     ServiceConnection connection;
 
 	private void RunService() {
-		connection = new ServiceConnection() {
+		new AlarmReceiver().setAlarm(this);
+		/*connection = new ServiceConnection() {
 			IExchangeService mService;
 
 			@Override
@@ -137,6 +140,8 @@ public class MainActivity extends Activity implements SharedPreferences.OnShared
 		//Intent intent = new Intent(this, ExchangeService.class);
         //startService(intent);
 		//bindService(intent, connection, BIND_AUTO_CREATE | BIND_IMPORTANT);
+		Intent i = new Intent(this, AlarmReceiver.class); // explicit
+		PendingIntent intentExecuted = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);*/
     }
 
 	@Override

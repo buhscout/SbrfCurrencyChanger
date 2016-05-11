@@ -292,8 +292,8 @@ public class WebDao {
             props.setRecognizeUnicodeChars(true);
             props.setOmitComments(true);
             props.setUseEmptyElementTags(true);
-            props.setOmitCdataOutsideScriptAndStyle(true);
-            props.setTrimAttributeValues(true);
+            //props.setOmitCdataOutsideScriptAndStyle(true);
+            //props.setTrimAttributeValues(true);
             props.setCharset(mCharset);
             props.setOmitHtmlEnvelope(true);
             props.setRecognizeUnicodeChars(true);
