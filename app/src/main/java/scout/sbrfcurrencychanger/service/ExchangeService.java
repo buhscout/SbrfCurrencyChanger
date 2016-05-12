@@ -101,7 +101,8 @@ public class ExchangeService extends IntentService {
                     }
                     break;
                 default:
-                    NotificationsManager.PushNotify(this, "Обменник", account.getCurrency().getCode() + ": Держать");
+                    Log.d(getClass().getName(), account.getCurrency().getCode() + " not change");
+                    //NotificationsManager.PushNotify(this, "Обменник", account.getCurrency().getCode() + ": Держать");
                     //recommend = "Держать";
                     break;
             }
